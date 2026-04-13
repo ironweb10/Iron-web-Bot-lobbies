@@ -79,7 +79,9 @@ const fetchVersion = require('../utils/version');
     await botClient.party.setPrivacy(Enums.PartyPrivacy.PRIVATE);
     await botClient.party.me.setLevel(level);
     await botClient.party.me.setBanner(banner);
-    await botClient.party.me.setBackpack(bid);
+    if (bid && typeof bid === 'string' && bid.trim() !== '' && bid !== 'None') {
+      await botClient.party.me.setBackpack(bid).catch((e) => console.warn('[WARN] setBackpack failed:', e.message));
+    }
   
   axiosInstance.interceptors.response.use(undefined, function (error) {
     if (error.response) {
